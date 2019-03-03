@@ -53,38 +53,52 @@ if cfg.load(cfg_forum, cfg_opts):
     print ('      Exemple : DC Comics/New 52/Groupe Batman/Batman')
     print ('--------------------------------------------------------------')
 
-    try:
-        folder = raw_input()
-    except Exception as e:
-        folder = input()
+    # try:
+    #     folder = raw_input()
+    # except Exception as e:
+    #     folder = input()
 
     try:
-        list_dir = oc.list(folder, depth=1)
+        folder = '/'
+        user_input = 0
+        while True:
+            list_dir = oc.list(folder, depth=1)
 
-        print("Dossiers")
-        print("........")
-        i = 1
-        for file in list_dir:
-            if file.is_dir():
-                # newName = file.get_name()
-                # path = file.get_path() + '/' + newName
-                path = file.get_path()
-                # print(newName)
-                print(str(i) + "- " + path)
-                i += 1
-        print("Fichiers")
-        print("........")
+            print("Dossiers")
+            print("........")
+            i = 1
+            folder_list = []
+            for file in list_dir:
+                if file.is_dir():
+                    # newName = file.get_name()
+                    # path = file.get_path() + '/' + newName
+                    path = file.get_path()
+                    folder_list.append(path)
+                    # print(newName)
+                    print(str(i) + "-\t" + path)
+                    i += 1
+            print("Fichiers")
+            print("........")
+            for file in list_dir:
+                if not file.is_dir():
+                    newName = file.get_name()
+                    path = file.get_path() + '/' + newName
+                    # path = file.get_path()
+                    print(newName)
+                    # print(path)
+            print(".........")
+            choice = input("tapez un chiffre pour naviguer dans "
+                           "le dossier, ou 'd' pour télécharger.\n")
+            if choice != 'd':
+                folder = folder_list[int(choice)-1]
+            else:
+                break
+
         for file in list_dir:
             if not file.is_dir():
                 newName = file.get_name()
                 path = file.get_path() + '/' + newName
-                # path = file.get_path()
-                print(newName)
-                # print(path)
-        print(".........")
-        # oc.get_file(path)
-
-
+                oc.get_file(path)
 
     except HTTPError as e:
         print(e.code)
