@@ -60,15 +60,6 @@ if cfg.load(cfg_forum, cfg_opts):
 
     try:
         list_dir = oc.list(folder, depth=1)
-        print ('-------------------------------------------------------------')
-        print ('         ____                      __                __')
-        print ('        / __ \_      ______  _____/ /___  __  ______/ /')
-        print ('       / / / / | /| / / __ \/ ___/ / __ \/ / / / __  /')
-        print ('      / /_/ /| |/ |/ / / / / /__/ / /_/ / /_/ / /_/ /')
-        print ('      \____/ |__/|__/_/ /_/\___/_/\____/\__,_/\__,_/  ' +
-               oc.get_version()+'')
-        print ('                                              ')
-        print ('-------------------------------------------------------------')
 
         print("Dossiers")
         print("........")
@@ -91,7 +82,7 @@ if cfg.load(cfg_forum, cfg_opts):
                 print(newName)
                 # print(path)
         print(".........")
-            # oc.get_file(path)
+        # oc.get_file(path)
 
 
 
