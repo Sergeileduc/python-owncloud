@@ -5,3 +5,8 @@ owncloud.cfg
 *.spec
 *.ico
 /*.svg
+*.cbr
+*.cbz
+*.jpg
+*.jpeg
+*.bat
