@@ -122,14 +122,15 @@ if cfg.load(cfg_forum, cfg_opts):
                 rel_path = path.replace(base_path, '')
 
                 try:
-                    if rel_path != path:
+                    if rel_path != path and not os.path.exists(rel_path):
                         os.makedirs(rel_path)
                 except OSError as e:
                     # print(e)
                     # print("mkdir error")
                     pass
                 try:
-                    os.chdir(rel_path)
+                    if rel_path != path:
+                        os.chdir(rel_path)
                 except OSError as e:
                     print(e)
                 try:
