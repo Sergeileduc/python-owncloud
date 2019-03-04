@@ -74,11 +74,11 @@ if cfg.load(cfg_forum, cfg_opts):
             for file in list_dir:
                 if file.is_dir():
                     name = file.get_name()
-                    # path = file.get_path() + '/' + newName
-                    path = file.get_path()
-                    folder_list.append((path, name))
+                    # full_path = file.get_path() + '/' + newName
+                    full_path = file.get_path()
+                    folder_list.append((full_path, name))
                     # print(newName)
-                    print(str(i) + "-\t" + path)
+                    print(str(i) + "-\t" + full_path)
                     i += 1
             print("==========================================================")
             print("Fichiers")
@@ -86,8 +86,8 @@ if cfg.load(cfg_forum, cfg_opts):
             for file in list_dir:
                 if not file.is_dir():
                     newName = file.get_name()
-                    path = file.get_path() + '/' + newName
-                    # path = file.get_path()
+                    full_path = file.get_path() + '/' + newName
+                    # full_path = file.get_path()
                     print(newName)
             print("==========================================================")
             choice = input("tapez un chiffre pour naviguer dans "
@@ -105,18 +105,45 @@ if cfg.load(cfg_forum, cfg_opts):
 
         try:
             os.mkdir(folder_name)
-        except OSError:
+            os.chdir(folder_name)
+        except OSError as e:
+            print(e)
+            print("mkdir error")
             pass
 
-        os.chdir(folder_name)
-
-        oc.get_file(smallify_path)
-
+        list_dir = oc.list(folder_path, depth=15)
         for file in list_dir:
             if not file.is_dir():
+                previous_dir = os.getcwd()
                 newName = file.get_name()
-                path = file.get_path() + '/' + newName
-                oc.get_file(path)
+                path = file.get_path()
+                full_path = path + '/' + newName
+                base_path = folder_path + '/'
+                rel_path = path.replace(base_path, '')
+
+                try:
+                    if rel_path != path:
+                        os.makedirs(rel_path)
+                except OSError as e:
+                    # print(e)
+                    # print("mkdir error")
+                    pass
+                try:
+                    os.chdir(rel_path)
+                except OSError as e:
+                    print(e)
+                try:
+                    if newName != ".DS_Store":
+                        print("Download : " + full_path)
+                        oc.get_file(full_path)
+                    os.chdir(previous_dir)
+                except Exception as e:
+                    print(e)
+                # try:
+                #     os.mkdir(full_path)
+                # except OSError:
+                #     pass
+                # oc.get_file(full_path)
 
     except HTTPError as e:
         print(e.code)
