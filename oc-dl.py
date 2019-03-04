@@ -52,8 +52,7 @@ if cfg.load(cfg_forum, cfg_opts):
     oc.login(cfg.username, cfg.password)
 
     print ('--------------------------------------------------------------')
-    print ('      Entrez (ou collez) le chemin vers le dossier Owncloud: ')
-    print ('      Exemple : DC Comics/New 52/Groupe Batman/Batman')
+    print ('     Loged in Owncloud ')
     print ('--------------------------------------------------------------')
 
     # try:
@@ -64,7 +63,6 @@ if cfg.load(cfg_forum, cfg_opts):
     try:
         folder_path = '/'
         folder_name = ''
-        user_input = 0
         while True:
             list_dir = oc.list(folder_path, depth=1)
             print("==========================================================")
