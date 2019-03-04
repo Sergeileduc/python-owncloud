@@ -10,3 +10,4 @@ owncloud.cfg
 *.jpg
 *.jpeg
 *.bat
+.DS_Store
