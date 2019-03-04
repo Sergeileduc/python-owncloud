@@ -2,5 +2,6 @@ owncloud.cfg
 /build/
 /dist/
 /__pycache__/
+*.spec
 *.ico
 /*.svg
