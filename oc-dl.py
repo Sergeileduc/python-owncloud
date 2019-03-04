@@ -6,6 +6,7 @@ import owncloud  # pip install pyocclient
 from urllib.error import HTTPError
 import importlib
 import sys
+import os
 
 importlib.reload(sys)
 
@@ -41,6 +42,8 @@ cfg_opts = ['host',
             'password'
             ]
 
+smallify_path = '/Documents/scripts/Windows/smallify.bat'
+
 cfg = Settings('owncloud.cfg')
 if cfg.load(cfg_forum, cfg_opts):
     # oc = owncloud.Client('http://dl.dctrad.fr')
@@ -59,40 +62,57 @@ if cfg.load(cfg_forum, cfg_opts):
     #     folder = input()
 
     try:
-        folder = '/'
+        folder_path = '/'
+        folder_name = ''
         user_input = 0
         while True:
-            list_dir = oc.list(folder, depth=1)
-
+            list_dir = oc.list(folder_path, depth=1)
+            print("==========================================================")
+            print("Contenu de : " + folder_path)
             print("Dossiers")
-            print("........")
+            print("..........................................................")
             i = 1
             folder_list = []
             for file in list_dir:
                 if file.is_dir():
-                    # newName = file.get_name()
+                    name = file.get_name()
                     # path = file.get_path() + '/' + newName
                     path = file.get_path()
-                    folder_list.append(path)
+                    folder_list.append((path, name))
                     # print(newName)
                     print(str(i) + "-\t" + path)
                     i += 1
+            print("==========================================================")
             print("Fichiers")
-            print("........")
+            print("..........................................................")
             for file in list_dir:
                 if not file.is_dir():
                     newName = file.get_name()
                     path = file.get_path() + '/' + newName
                     # path = file.get_path()
                     print(newName)
-                    # print(path)
-            print(".........")
+            print("==========================================================")
             choice = input("tapez un chiffre pour naviguer dans "
                            "le dossier, ou 'd' pour télécharger.\n")
             if choice != 'd':
-                folder = folder_list[int(choice)-1]
+                try:
+                    folder_path = folder_list[int(choice)-1][0]
+                    folder_name = folder_list[int(choice)-1][1]
+                except IndexError:
+                    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                    print("Mauvaise valeur")
+
             else:
                 break
+
+        try:
+            os.mkdir(folder_name)
+        except OSError:
+            pass
+
+        os.chdir(folder_name)
+
+        oc.get_file(smallify_path)
 
         for file in list_dir:
             if not file.is_dir():
@@ -105,4 +125,4 @@ if cfg.load(cfg_forum, cfg_opts):
     except owncloud.owncloud.HTTPResponseError as e:
         print("Dossier non valide")
 
-    input("Pressez une touche pour quitter")
+    input("Pressez une touche pour quitter\n")
