@@ -5,6 +5,7 @@ import configparser
 import owncloud  # pip install pyocclient
 from urllib.error import HTTPError
 import importlib
+import requests.exceptions
 import sys
 import os
 
@@ -51,8 +52,10 @@ if cfg.load(cfg_forum, cfg_opts):
     # oc.login('Staff', 'staff123')
     try:
         oc.login(cfg.username, cfg.password)
-    except Exception as e:
-        print("Erreur.\nVeuillez configurer owncloud.cfg")
+    except requests.exceptions.MissingSchema:
+        print("Erreur.\nVeuillez configurer owncloud.cfg avec une url correcte")
+    except owncloud.owncloud.HTTPResponseError as e:
+        print("Erreur.\nVeuillez configurer owncloud.cfg avec utilisateur et mot de passe valide")
         # print(e)
         sys.exit(1)
 
