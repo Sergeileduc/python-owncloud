@@ -49,7 +49,12 @@ if cfg.load(cfg_forum, cfg_opts):
     # oc = owncloud.Client('http://dl.dctrad.fr')
     oc = owncloud.Client(cfg.host)
     # oc.login('Staff', 'staff123')
-    oc.login(cfg.username, cfg.password)
+    try:
+        oc.login(cfg.username, cfg.password)
+    except Exception as e:
+        print("Erreur.\nVeuillez configurer owncloud.cfg")
+        # print(e)
+        sys.exit(1)
 
     print ('--------------------------------------------------------------')
     print ('     Loged in Owncloud ')
