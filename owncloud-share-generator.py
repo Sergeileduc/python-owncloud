@@ -2,16 +2,16 @@
 # -*- coding: UTF-8 -*-
 
 import configparser
-import owncloud #pip install pyocclient
-import urllib.request as urllib2 #Python3
+import owncloud  # pip install pyocclient
+import urllib.request as urllib2  # Python3
 from urllib.error import HTTPError
 import importlib
 import sys
-import math
 
 importlib.reload(sys)
 
-#class for parsing config .cfg file
+
+# Class for parsing config .cfg file
 class Settings(object):
 
     def __init__(self, configfile):
@@ -34,6 +34,7 @@ class Settings(object):
             return True
         return False
 
+
 cfg_forum = 'dctrad'
 
 cfg_opts = ['host',
@@ -43,9 +44,9 @@ cfg_opts = ['host',
 
 cfg = Settings('owncloud.cfg')
 if cfg.load(cfg_forum, cfg_opts):
-    #oc = owncloud.Client('http://dl.dctrad.fr')
+    # oc = owncloud.Client('http://dl.dctrad.fr')
     oc = owncloud.Client(cfg.host)
-    #oc.login('Staff', 'staff123')
+    # oc.login('Staff', 'staff123')
     oc.login(cfg.username, cfg.password)
 
     print ('--------------------------------------------------------------')
@@ -55,19 +56,20 @@ if cfg.load(cfg_forum, cfg_opts):
 
     try:
         folder = raw_input()
-    except:
+    except Exception as e:
         folder = input()
 
     try:
         list_dir = oc.list(folder)
-        print ('--------------------------------------------------------------')
+        print ('-------------------------------------------------------------')
         print ('         ____                      __                __')
         print ('        / __ \_      ______  _____/ /___  __  ______/ /')
         print ('       / / / / | /| / / __ \/ ___/ / __ \/ / / / __  /')
         print ('      / /_/ /| |/ |/ / / / / /__/ / /_/ / /_/ / /_/ /')
-        print ('      \____/ |__/|__/_/ /_/\___/_/\____/\__,_/\__,_/  '+oc.get_version()+'')
+        print ('      \____/ |__/|__/_/ /_/\___/_/\____/\__,_/\__,_/  ' +
+               oc.get_version()+'')
         print ('                                              ')
-        print ('--------------------------------------------------------------')
+        print ('-------------------------------------------------------------')
 
         for files in list_dir:
             newName = files.get_name()
@@ -78,11 +80,14 @@ if cfg.load(cfg_forum, cfg_opts):
                     link_info = oc.share_file_with_link(files)
                     newName = newName.replace('.cbz', '')
                     newName = newName.replace('.cbr', '')
-                    print ('[url='+ link_info.get_link() + ']' + newName + '[/url]')
+                    print ('[url='
+                           + link_info.get_link()
+                           + ']' + newName
+                           + '[/url]')
             except owncloud.owncloud.HTTPResponseError as e:
                 pass
 
-        print ('--------------------------------------------------------------')
+        print ('-------------------------------------------------------------')
     except HTTPError as e:
         print(e.code)
     except owncloud.owncloud.HTTPResponseError as e:
