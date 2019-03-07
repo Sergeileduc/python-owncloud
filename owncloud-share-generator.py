@@ -3,7 +3,7 @@
 
 import configparser
 import owncloud  # pip install pyocclient
-import urllib.request as urllib2  # Python3
+# import urllib.request as urllib2  # Python3
 from urllib.error import HTTPError
 import importlib
 import sys
