@@ -2,17 +2,18 @@
 # -*- coding: UTF-8 -*-
 
 import configparser
-import owncloud #pip install pyocclient
-import urllib.request as urllib2 #Python3
+import owncloud  # pip install pyocclient
+
 from urllib.error import HTTPError
+import requests.exceptions
 import importlib
 import sys
-import math
 import os
 
 importlib.reload(sys)
 
-#class for parsing config .cfg file
+
+# Class for parsing config .cfg file
 class Settings(object):
 
     def __init__(self, configfile):
@@ -35,6 +36,7 @@ class Settings(object):
             return True
         return False
 
+
 cfg_forum = 'dctrad'
 
 cfg_opts = ['host',
@@ -44,7 +46,7 @@ cfg_opts = ['host',
 
 cfg = Settings('owncloud.cfg')
 if cfg.load(cfg_forum, cfg_opts):
-    #oc = owncloud.Client('http://dl.dctrad.fr')
+    # oc = owncloud.Client('http://dl.dctrad.fr')
     oc = owncloud.Client(cfg.host)
 
     print ('--------------------------------------------------------------')
@@ -69,7 +71,7 @@ if cfg.load(cfg_forum, cfg_opts):
         print(dir)
     while True:
         dir = os.path.normpath(dir)
-        local_dirs=[d for d in os.listdir(dir)]
+        local_dirs = [d for d in os.listdir(dir)]
         i = 1
         for ld in local_dirs:
             print(str(i) + "-\t" + ld)
@@ -85,7 +87,7 @@ if cfg.load(cfg_forum, cfg_opts):
                     print("yay")
                     print(dir)
                 else:
-                    prin(dir + " doesn't exist")
+                    print(dir + " doesn't exist")
                     dir = os.getcwd()
             except IndexError:
                 print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
@@ -99,9 +101,12 @@ if cfg.load(cfg_forum, cfg_opts):
     try:
         oc.login(cfg.username, cfg.password)
     except requests.exceptions.MissingSchema:
-        print("Erreur.\nVeuillez configurer owncloud.cfg avec une url correcte")
+        print("Erreur.\n"
+              "Veuillez configurer owncloud.cfg avec une url correcte")
     except owncloud.owncloud.HTTPResponseError as e:
-        print("Erreur.\nVeuillez configurer owncloud.cfg avec utilisateur et mot de passe valide")
+        print("Erreur.\n"
+              " Veuillez configurer owncloud.cfg "
+              "avec utilisateur et mot de passe valide")
         # print(e)
         sys.exit(1)
 
@@ -155,12 +160,12 @@ if cfg.load(cfg_forum, cfg_opts):
 
         print("Dossier distant : " + folder_path)
 
-        print ('--------------------------------------------------------------')
+        print ('-------------------------------------------------------------')
         print ('Vous allez uploader le contenu de :')
         print('\t' + local_dir)
         print('dans le dossier Owncloud :')
         print ('\t' + folder_path)
-        print ('--------------------------------------------------------------')
+        print ('-------------------------------------------------------------')
 
         choice = input("Voulez-vous continuer (y/n) ?\n")
         if choice != 'y':
@@ -175,7 +180,8 @@ if cfg.load(cfg_forum, cfg_opts):
                 file_l_path = os.path.join(root, name)
                 file_rel_path = os.path.relpath(file_l_path, start=local_dir)
                 norm_path = os.path.normpath(file_rel_path)
-                remote_path = os.path.join(folder_path, norm_path).replace('\\', '/')
+                remote_path = \
+                    os.path.join(folder_path, norm_path).replace('\\', '/')
                 print("up : " + file_l_path + " in \t\t\t" + remote_path)
 
         choice = input("Voulez-vous continuer (y/n) ?\n")
@@ -188,7 +194,8 @@ if cfg.load(cfg_forum, cfg_opts):
                 file_l_path = os.path.join(root, name)
                 file_rel_path = os.path.relpath(file_l_path, start=local_dir)
                 norm_path = os.path.normpath(file_rel_path)
-                remote_path = os.path.join(folder_path, norm_path).replace('\\', '/')
+                remote_path = \
+                    os.path.join(folder_path, norm_path).replace('\\', '/')
                 print("up : " + file_l_path + " in \t\t\t" + remote_path)
 
                 try:
@@ -196,6 +203,8 @@ if cfg.load(cfg_forum, cfg_opts):
                 except Exception as e:
                     print(e)
 
+    except HTTPError as e:
+        print(e.code)
     except owncloud.owncloud.HTTPResponseError as e:
         print("Dossier non valide")
 
