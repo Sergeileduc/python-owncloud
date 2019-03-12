@@ -43,13 +43,10 @@ cfg_opts = ['host',
             'password'
             ]
 
-smallify_path = '/Documents/scripts/Windows/smallify.bat'
 
 cfg = Settings('owncloud.cfg')
 if cfg.load(cfg_forum, cfg_opts):
-    # oc = owncloud.Client('http://dl.dctrad.fr')
     oc = owncloud.Client(cfg.host)
-    # oc.login('Staff', 'staff123')
     try:
         oc.login(cfg.username, cfg.password)
     except requests.exceptions.MissingSchema:
