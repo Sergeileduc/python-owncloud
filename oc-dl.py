@@ -86,8 +86,7 @@ if cfg.load(cfg_forum, cfg_opts):
                     # full_path = file.get_path() + '/' + newName
                     full_path = file.get_path()
                     folder_list.append((full_path, name))
-                    # print(newName)
-                    print(str(i) + "-\t" + full_path)
+                    print('{:.<5d}{:<s}'.format(i, full_path))
                     i += 1
             print("==========================================================")
             print("Fichiers")

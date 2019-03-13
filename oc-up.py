@@ -74,7 +74,8 @@ if cfg.load(cfg_forum, cfg_opts):
         local_dirs = [d for d in os.listdir(dir)]
         i = 1
         for ld in local_dirs:
-            print(str(i) + "-\t" + ld)
+            # print(str(i) + "-\t" + ld)
+            print('{:.<5d}{:<s}'.format(i, ld))
             i += 1
 
         choice = input("tapez un chiffre pour naviguer dans "
@@ -133,7 +134,8 @@ if cfg.load(cfg_forum, cfg_opts):
                     full_path = file.get_path()
                     folder_list.append((full_path, name))
                     # print(newName)
-                    print(str(i) + "-\t" + full_path)
+                    # print(str(i) + "-\t" + full_path)
+                    print('{:.<5d}{:<s}'.format(i, full_path))
                     i += 1
             print("==========================================================")
             print("Fichiers")
