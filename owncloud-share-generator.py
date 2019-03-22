@@ -63,10 +63,10 @@ if cfg.load(cfg_forum, cfg_opts):
         input("Pressez une touche pour quitter")
         sys.exit(1)
 
-    print ('--------------------------------------------------------------')
-    print ('      Entrez (ou collez) le chemin vers le dossier Owncloud: ')
-    print ('      Exemple : DC Comics/New 52/Groupe Batman/Batman')
-    print ('--------------------------------------------------------------')
+    # print ('--------------------------------------------------------------')
+    # print ('      Entrez (ou collez) le chemin vers le dossier Owncloud: ')
+    # print ('      Exemple : DC Comics/New 52/Groupe Batman/Batman')
+    # print ('--------------------------------------------------------------')
 
     # try:
     #     folder = raw_input()
