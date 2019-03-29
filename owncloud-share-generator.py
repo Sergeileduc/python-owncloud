@@ -93,8 +93,7 @@ if cfg.load(cfg_forum, cfg_opts):
             list_dir = oc.list(folder_path, depth=1)
             print("==========================================================")
             print("Contenu de : " + folder_path)
-            print("Dossiers")
-            print("..........................................................")
+            print("Dossiers**************************************************")
             i = 1
             folder_list = []
             for file in list_dir:
@@ -103,12 +102,10 @@ if cfg.load(cfg_forum, cfg_opts):
                     # full_path = file.get_path() + '/' + newName
                     full_path = file.get_path()
                     folder_list.append((full_path, name))
-                    # print(newName)
-                    print(str(i) + "-\t" + full_path)
+                    print('{:.<5d}{:<s}'.format(i, full_path))
                     i += 1
             print("==========================================================")
-            print("Fichiers")
-            print("..........................................................")
+            print("Fichiers**************************************************")
             for file in list_dir:
                 if not file.is_dir():
                     newName = file.get_name()
@@ -116,11 +113,13 @@ if cfg.load(cfg_forum, cfg_opts):
                     shared = 'no'
                     if oc.is_shared(full_path):
                         shared = 'yes'
-                    print(newName + '\t' + 'Partage : ' + shared)
+                    # print(newName + '\t' + 'Partage : ' + shared)
+                    print('{:.<60s} Partagé : {}'.format(newName, shared))
             print("==========================================================")
-            choice = input("tapez un chiffre pour naviguer dans "
+            choice = input("tapez un nombre pour naviguer dans "
                            "le dossier, "
-                           "ou 'y' pour créer les liens de partage.\n")
+                           "ou 'y' pour créer les liens de partage "
+                           "des fichiers.\n")
             if choice != 'y':
                 try:
                     folder_path = folder_list[int(choice)-1][0]
