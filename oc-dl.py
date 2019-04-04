@@ -71,6 +71,7 @@ if cfg.load(cfg_forum, cfg_opts):
 
     try:
         folder_path = '/'
+        previous_folder_path = []
         folder_name = ''
         while True:
             list_dir = oc.list(folder_path, depth=1)
@@ -98,16 +99,27 @@ if cfg.load(cfg_forum, cfg_opts):
                     # full_path = file.get_path()
                     print(newName)
             print("==========================================================")
-            choice = input("tapez un chiffre pour naviguer dans "
-                           "le dossier, ou 'd' pour télécharger.\n")
-            if choice != 'd':
+            choice = input("Entrez un choix :\n"
+                           "- un nombre pour naviguer dans un dossier\n"
+                           "- 'u' pour remonter dans le dossier précédent\n"
+                           "- 'd' pour télécharger le contenu.\n")
+            if choice != 'd' and choice != 'u':
                 try:
+                    previous_folder_path.append(folder_path)
                     folder_path = folder_list[int(choice)-1][0]
                     folder_name = folder_list[int(choice)-1][1]
                 except IndexError:
                     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                     print("Mauvaise valeur")
+                except ValueError:
+                    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                    print("Mauvaise valeur")
 
+            elif choice == 'u':
+                try:
+                    folder_path = previous_folder_path.pop()
+                except IndexError:
+                    folder_path = '/'
             else:
                 break
 
