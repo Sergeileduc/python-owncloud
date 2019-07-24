@@ -56,6 +56,7 @@ if cfg.load(cfg_forum, cfg_opts):
         input("Pressez une touche pour quitter")
         sys.exit(1)
     except owncloud.owncloud.HTTPResponseError as e:
+        print(e)
         print("Erreur.\n"
               "Veuillez configurer owncloud.cfg avec utilisateur "
               "et mot de passe valide")
@@ -74,15 +75,15 @@ if cfg.load(cfg_forum, cfg_opts):
     #     folder = input()
 
     try:
-        print ('-------------------------------------------------------------')
-        print (r'         ____                      __                __')
-        print (r'        / __ \_      ______  _____/ /___  __  ______/ /')
-        print (r'       / / / / | /| / / __ \/ ___/ / __ \/ / / / __  /')
-        print (r'      / /_/ /| |/ |/ / / / / /__/ / /_/ / /_/ / /_/ /')
-        print (r'      \____/ |__/|__/_/ /_/\___/_/\____/\__,_/\__,_/  ' +
-               oc.get_version()+'')
-        print ('                                              ')
-        print ('-------------------------------------------------------------')
+        print('-------------------------------------------------------------')
+        print(r'         ____                      __                __')
+        print(r'        / __ \_      ______  _____/ /___  __  ______/ /')
+        print(r'       / / / / | /| / / __ \/ ___/ / __ \/ / / / __  /')
+        print(r'      / /_/ /| |/ |/ / / / / /__/ / /_/ / /_/ / /_/ /')
+        print(r'      \____/ |__/|__/_/ /_/\___/_/\____/\__,_/\__,_/  ' +
+              oc.get_version()+'')
+        print('                                              ')
+        print('-------------------------------------------------------------')
     except Exception:
         sys.exit(1)
 
@@ -141,17 +142,17 @@ if cfg.load(cfg_forum, cfg_opts):
                     link_info = oc.share_file_with_link(files)
                     newName = newName.replace('.cbz', '')
                     newName = newName.replace('.cbr', '')
-                    print ('[url='
-                           + link_info.get_link()
-                           + ']' + newName
-                           + '[/url]')
+
+                    print(f'[url={link_info.get_link()}]{newName}[/url]')
             except owncloud.owncloud.HTTPResponseError as e:
+                print(e)
                 pass
 
-        print ('-------------------------------------------------------------')
+        print('-------------------------------------------------------------')
     except HTTPError as e:
         print(e.code)
     except owncloud.owncloud.HTTPResponseError as e:
+        print(e)
         print("Dossier non valide")
 
     input("Pressez une touche pour quitter")

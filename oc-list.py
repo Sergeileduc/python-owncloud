@@ -49,9 +49,9 @@ if cfg.load(cfg_forum, cfg_opts):
     # oc.login('Staff', 'staff123')
     oc.login(cfg.username, cfg.password)
 
-    print ('--------------------------------------------------------------')
-    print ('     Loged in Owncloud ')
-    print ('--------------------------------------------------------------')
+    print('--------------------------------------------------------------')
+    print('     Loged in Owncloud ')
+    print('--------------------------------------------------------------')
 
     # try:
     #     folder = raw_input()
@@ -75,7 +75,7 @@ if cfg.load(cfg_forum, cfg_opts):
 
     except HTTPError as e:
         print(e.code)
-    except owncloud.owncloud.HTTPResponseError as e:
+    except owncloud.owncloud.HTTPResponseError:
         print("Dossier non valide")
 
     input("Pressez une touche pour quitter\n")

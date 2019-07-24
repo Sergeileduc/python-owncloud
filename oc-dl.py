@@ -53,16 +53,16 @@ if cfg.load(cfg_forum, cfg_opts):
         print("Erreur.\n"
               "Veuillez configurer owncloud.cfg avec une url correcte")
         sys.exit(1)
-    except owncloud.owncloud.HTTPResponseError as e:
+    except owncloud.owncloud.HTTPResponseError:
         print("Erreur.\n"
               "Veuillez configurer owncloud.cfg avec utilisateur "
               "et mot de passe valide")
         # print(e)
         sys.exit(1)
 
-    print ('--------------------------------------------------------------')
-    print ('     Loged in Owncloud ')
-    print ('--------------------------------------------------------------')
+    print('--------------------------------------------------------------')
+    print('     Loged in Owncloud ')
+    print('--------------------------------------------------------------')
 
     # try:
     #     folder = raw_input()
@@ -144,7 +144,7 @@ if cfg.load(cfg_forum, cfg_opts):
                 try:
                     if rel_path != path and not os.path.exists(rel_path):
                         os.makedirs(rel_path)
-                except OSError as e:
+                except OSError:
                     # print(e)
                     # print("mkdir error")
                     pass
@@ -168,7 +168,7 @@ if cfg.load(cfg_forum, cfg_opts):
 
     except HTTPError as e:
         print(e.code)
-    except owncloud.owncloud.HTTPResponseError as e:
+    except owncloud.owncloud.HTTPResponseError:
         print("Dossier non valide")
 
     input("Pressez une touche pour quitter\n")
