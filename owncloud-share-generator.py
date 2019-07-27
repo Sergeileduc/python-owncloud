@@ -93,7 +93,7 @@ if cfg.load(cfg_forum, cfg_opts):
         while True:
             list_dir = oc.list(folder_path, depth=1)
             print("==========================================================")
-            print("Contenu de : " + folder_path)
+            print(f"Contenu de : {folder_path}")
             print("Dossiers**************************************************")
             i = 1
             folder_list = []
@@ -102,8 +102,8 @@ if cfg.load(cfg_forum, cfg_opts):
                     name = file.get_name()
                     # full_path = file.get_path() + '/' + newName
                     full_path = file.get_path()
-                    folder_list.append((full_path, name))
-                    print('{:.<5d}{:<s}'.format(i, full_path))
+                    folder_list.append({'path': full_path, 'name': name})
+                    print(f'{i:.<5d}{full_path:<s}')
                     i += 1
             print("==========================================================")
             print("Fichiers**************************************************")
@@ -115,7 +115,7 @@ if cfg.load(cfg_forum, cfg_opts):
                     if oc.is_shared(full_path):
                         shared = 'yes'
                     # print(newName + '\t' + 'Partage : ' + shared)
-                    print('{:.<60s} Partagé : {}'.format(newName, shared))
+                    print(f'{newName:.<60s} Partagé : {shared}')
             print("==========================================================")
             choice = input("tapez un nombre pour naviguer dans "
                            "le dossier, "
@@ -123,8 +123,8 @@ if cfg.load(cfg_forum, cfg_opts):
                            "des fichiers.\n")
             if choice != 'y':
                 try:
-                    folder_path = folder_list[int(choice)-1][0]
-                    folder_name = folder_list[int(choice)-1][1]
+                    folder_path = folder_list[int(choice)-1]['path']
+                    folder_name = folder_list[int(choice)-1]['name']
                 except IndexError:
                     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                     print("Mauvaise valeur")
