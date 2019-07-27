@@ -29,9 +29,9 @@ class Settings(object):
                     setattr(self, key, self.config.get('default', key))
 
         except configparser.NoSectionError:
-            print('The section "%s" does not exist' % section)
+            print(f'The section "{section}" does not exist')
         except configparser.NoOptionError:
-            print('The value for "%s" is missing' % key)
+            print(f'The value for "{key}" is missing')
         else:
             return True
         return False
@@ -49,9 +49,9 @@ if cfg.load(cfg_forum, cfg_opts):
     # oc = owncloud.Client('http://dl.dctrad.fr')
     oc = owncloud.Client(cfg.host)
 
-    print ('--------------------------------------------------------------')
-    print ('     Loged in Owncloud ')
-    print ('--------------------------------------------------------------')
+    print('--------------------------------------------------------------')
+    print('     Loged in Owncloud ')
+    print('--------------------------------------------------------------')
     print('Le script vous permet d\'uploader le CONTENU d\'un dossier local \n'
           'vers un dossier du Owncloud existant, pour le mettre à jour\n')
     print('Par exemple, vous pouvez uploader le CONTENU '
@@ -59,10 +59,10 @@ if cfg.load(cfg_forum, cfg_opts):
           '"Groupe Superman (nouvelle version)"\n'
           'vers le dossier :\nOwncloud "Groupe Superman"')
 
-    print ('--------------------------------------------------------------')
-    print ('      Choix du dossier LOCAL dont le contenu sera uploadé')
-    print ('      Exemple : "./TODO/Groupe Superman Perso"')
-    print ('--------------------------------------------------------------')
+    print('--------------------------------------------------------------')
+    print('      Choix du dossier LOCAL dont le contenu sera uploadé')
+    print('      Exemple : "./TODO/Groupe Superman Perso"')
+    print('--------------------------------------------------------------')
 
     dir = os.getcwd()
     dir = os.path.normpath(dir)
@@ -104,17 +104,17 @@ if cfg.load(cfg_forum, cfg_opts):
     except requests.exceptions.MissingSchema:
         print("Erreur.\n"
               "Veuillez configurer owncloud.cfg avec une url correcte")
-    except owncloud.owncloud.HTTPResponseError as e:
+    except owncloud.owncloud.HTTPResponseError:
         print("Erreur.\n"
               " Veuillez configurer owncloud.cfg "
               "avec utilisateur et mot de passe valide")
         # print(e)
         sys.exit(1)
 
-    print ('--------------------------------------------------------------')
-    print ('      Choix du dossier Owncloud de destination: ')
-    print ('      Exemple : DC Comics/New 52/Groupe Superman')
-    print ('--------------------------------------------------------------')
+    print('--------------------------------------------------------------')
+    print('      Choix du dossier Owncloud de destination: ')
+    print('      Exemple : DC Comics/New 52/Groupe Superman')
+    print('--------------------------------------------------------------')
 
     try:
         folder_path = '/'
@@ -162,12 +162,12 @@ if cfg.load(cfg_forum, cfg_opts):
 
         print("Dossier distant : " + folder_path)
 
-        print ('-------------------------------------------------------------')
-        print ('Vous allez uploader le contenu de :')
+        print('-------------------------------------------------------------')
+        print('Vous allez uploader le contenu de :')
         print('\t' + local_dir)
         print('dans le dossier Owncloud :')
-        print ('\t' + folder_path)
-        print ('-------------------------------------------------------------')
+        print('\t' + folder_path)
+        print('-------------------------------------------------------------')
 
         choice = input("Voulez-vous continuer (y/n) ?\n")
         if choice != 'y':
@@ -207,7 +207,7 @@ if cfg.load(cfg_forum, cfg_opts):
 
     except HTTPError as e:
         print(e.code)
-    except owncloud.owncloud.HTTPResponseError as e:
+    except owncloud.owncloud.HTTPResponseError:
         print("Dossier non valide")
 
     input("Pressez une touche pour quitter")
