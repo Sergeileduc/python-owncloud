@@ -52,12 +52,13 @@ if cfg.load(cfg_forum, cfg_opts):
     print('--------------------------------------------------------------')
     print('     Loged in Owncloud ')
     print('--------------------------------------------------------------')
-    print('Le script vous permet d\'uploader le CONTENU d\'un dossier local \n'
-          'vers un dossier du Owncloud existant, pour le mettre à jour\n')
-    print('Par exemple, vous pouvez uploader le CONTENU '
-          '(avec toute l\'arborescence) d\'un dossier :\n'
-          '"Groupe Superman (nouvelle version)"\n'
-          'vers le dossier :\nOwncloud "Groupe Superman"')
+    print("Le script vous permet d'uploader le CONTENU d'un dossier local")
+    print("vers un dossier du Owncloud existant, pour le mettre à jour")
+    print("Par exemple, vous pouvez uploader le CONTENU "
+          "(avec toute l'arborescence) d'un dossier :")
+    print('"Groupe Superman (nouvelle version)"')
+    print('vers le dossier :')
+    print('Owncloud "Groupe Superman"')
 
     print('--------------------------------------------------------------')
     print('      Choix du dossier LOCAL dont le contenu sera uploadé')
@@ -75,7 +76,7 @@ if cfg.load(cfg_forum, cfg_opts):
         i = 1
         for ld in local_dirs:
             # print(str(i) + "-\t" + ld)
-            print('{:.<5d}{:<s}'.format(i, ld))
+            print(f'{i:.<5d}{ld:<s}')
             i += 1
 
         choice = input("tapez un chiffre pour naviguer dans "
@@ -97,16 +98,16 @@ if cfg.load(cfg_forum, cfg_opts):
             break
 
     local_dir = dir
-    print("Dossier local : " + local_dir)
+    print(f"Dossier local : {local_dir}")
 
     try:
         oc.login(cfg.username, cfg.password)
     except requests.exceptions.MissingSchema:
-        print("Erreur.\n"
-              "Veuillez configurer owncloud.cfg avec une url correcte")
+        print("Erreur.")
+        print("Veuillez configurer owncloud.cfg avec une url correcte")
     except owncloud.owncloud.HTTPResponseError:
-        print("Erreur.\n"
-              " Veuillez configurer owncloud.cfg "
+        print("Erreur.")
+        print(" Veuillez configurer owncloud.cfg "
               "avec utilisateur et mot de passe valide")
         # print(e)
         sys.exit(1)
@@ -122,7 +123,7 @@ if cfg.load(cfg_forum, cfg_opts):
         while True:
             list_dir = oc.list(folder_path, depth=1)
             print("==========================================================")
-            print("Contenu de : " + folder_path)
+            print(f"Contenu de : {folder_path}")
             print("Dossiers")
             print("..........................................................")
             i = 1
@@ -132,10 +133,10 @@ if cfg.load(cfg_forum, cfg_opts):
                     name = file.get_name()
                     # full_path = file.get_path() + '/' + newName
                     full_path = file.get_path()
-                    folder_list.append((full_path, name))
+                    folder_list.append({'path': full_path, 'name': name})
                     # print(newName)
                     # print(str(i) + "-\t" + full_path)
-                    print('{:.<5d}{:<s}'.format(i, full_path))
+                    print(f'{i:.<5d}{full_path:<s}')
                     i += 1
             print("==========================================================")
             print("Fichiers")
@@ -151,8 +152,8 @@ if cfg.load(cfg_forum, cfg_opts):
                            "le dossier, ou 'y' pour valider.\n")
             if choice != 'y':
                 try:
-                    folder_path = folder_list[int(choice)-1][0]
-                    folder_name = folder_list[int(choice)-1][1]
+                    folder_path = folder_list[int(choice)-1]['path']
+                    folder_name = folder_list[int(choice)-1]['name']
                 except IndexError:
                     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                     print("Mauvaise valeur")
@@ -160,7 +161,7 @@ if cfg.load(cfg_forum, cfg_opts):
             else:
                 break
 
-        print("Dossier distant : " + folder_path)
+        print(f"Dossier distant : {folder_path}")
 
         print('-------------------------------------------------------------')
         print('Vous allez uploader le contenu de :')
