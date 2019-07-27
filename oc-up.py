@@ -165,9 +165,9 @@ if cfg.load(cfg_forum, cfg_opts):
 
         print('-------------------------------------------------------------')
         print('Vous allez uploader le contenu de :')
-        print('\t' + local_dir)
+        print(f'\t{local_dir}')
         print('dans le dossier Owncloud :')
-        print('\t' + folder_path)
+        print(f'\t{folder_path}')
         print('-------------------------------------------------------------')
 
         choice = input("Voulez-vous continuer (y/n) ?\n")
@@ -185,7 +185,7 @@ if cfg.load(cfg_forum, cfg_opts):
                 norm_path = os.path.normpath(file_rel_path)
                 remote_path = \
                     os.path.join(folder_path, norm_path).replace('\\', '/')
-                print("up : " + file_l_path + " in \t\t\t" + remote_path)
+                print(f"up : {file_l_path} in \t\t\t {remote_path}")
 
         choice = input("Voulez-vous continuer (y/n) ?\n")
         if choice != 'y':
@@ -199,7 +199,7 @@ if cfg.load(cfg_forum, cfg_opts):
                 norm_path = os.path.normpath(file_rel_path)
                 remote_path = \
                     os.path.join(folder_path, norm_path).replace('\\', '/')
-                print("up : " + file_l_path + " in \t\t\t" + remote_path)
+                print(f"up : {file_l_path} in \t\t\t {remote_path}")
 
                 try:
                     oc.put_file(remote_path, file_l_path)
