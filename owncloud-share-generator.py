@@ -50,17 +50,13 @@ if cfg.load(cfg_forum, cfg_opts):
     try:
         oc.login(cfg.username, cfg.password)
     except requests.exceptions.MissingSchema:
-        print("Erreur.\n"
-              "Veuillez configurer owncloud.cfg avec une url correcte")
-        input("Pressez une touche pour quitter")
-        sys.exit(1)
-    except owncloud.owncloud.HTTPResponseError as e:
-        print(e)
-        print("Erreur.\n"
-              "Veuillez configurer owncloud.cfg avec utilisateur "
-              "et mot de passe valide")
+        print("Erreur.")
+        print("Veuillez configurer owncloud.cfg avec une url correcte")
+    except owncloud.owncloud.HTTPResponseError:
+        print("Erreur.")
+        print(" Veuillez configurer owncloud.cfg "
+              "avec utilisateur et mot de passe valide")
         # print(e)
-        input("Pressez une touche pour quitter")
         sys.exit(1)
 
     # print ('--------------------------------------------------------------')
