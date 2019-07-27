@@ -26,9 +26,9 @@ class Settings(object):
                     setattr(self, key, self.config.get('default', key))
 
         except configparser.NoSectionError:
-            print('The section "%s" does not exist' % section)
+            print(f'The section "{section}" does not exist')
         except configparser.NoOptionError:
-            print('The value for "%s" is missing' % key)
+            print(f'The value for "{key}" is missing')
         else:
             return True
         return False
