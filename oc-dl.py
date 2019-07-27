@@ -85,8 +85,8 @@ if cfg.load(cfg_forum, cfg_opts):
                     name = file.get_name()
                     # full_path = file.get_path() + '/' + newName
                     full_path = file.get_path()
-                    folder_list.append((full_path, name))
-                    print('{:.<5d}{:<s}'.format(i, full_path))
+                    folder_list.append({'path': full_path, 'name': name})
+                    print(f'{i:.<5d}{full_path:<s}')
                     i += 1
             print("==========================================================")
             print("Fichiers")
@@ -105,8 +105,8 @@ if cfg.load(cfg_forum, cfg_opts):
             if choice != 'd' and choice != 'u':
                 try:
                     previous_folder_path.append(folder_path)
-                    folder_path = folder_list[int(choice)-1][0]
-                    folder_name = folder_list[int(choice)-1][1]
+                    folder_path = folder_list[int(choice)-1]['path']
+                    folder_name = folder_list[int(choice)-1]['name']
                 except IndexError:
                     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                     print("Mauvaise valeur")
@@ -154,7 +154,7 @@ if cfg.load(cfg_forum, cfg_opts):
                     print(e)
                 try:
                     if newName != ".DS_Store":
-                        print("Download : " + full_path)
+                        print(f"Download : {full_path}")
                         oc.get_file(full_path)
                     os.chdir(previous_dir)
                 except Exception as e:
