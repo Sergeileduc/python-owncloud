@@ -60,10 +60,8 @@ if cfg.load(cfg_forum, cfg_opts):
         for file in list_dir:
             if file.is_dir():
                 name = file.get_name()
-                # path = file.get_path() + '/' + newName
                 path = file.get_path()
                 folder_list.append((path, name))
-                # print(newName)
                 print(path)
 
     except HTTPError as e:
