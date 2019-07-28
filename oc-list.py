@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 
+import os
 import configparser
 import owncloud  # pip install pyocclient
 from urllib.error import HTTPError
