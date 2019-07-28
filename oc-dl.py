@@ -63,11 +63,6 @@ if cfg.load(cfg_forum, cfg_opts):
     print('     Loged in Owncloud ')
     print('--------------------------------------------------------------')
 
-    # try:
-    #     folder = raw_input()
-    # except Exception as e:
-    #     folder = input()
-
     try:
         folder_path = '/'
         previous_folder_path = []
