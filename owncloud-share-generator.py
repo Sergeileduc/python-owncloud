@@ -59,16 +59,6 @@ if cfg.load(cfg_forum, cfg_opts):
         # print(e)
         sys.exit(1)
 
-    # print ('--------------------------------------------------------------')
-    # print ('      Entrez (ou collez) le chemin vers le dossier Owncloud: ')
-    # print ('      Exemple : DC Comics/New 52/Groupe Batman/Batman')
-    # print ('--------------------------------------------------------------')
-
-    # try:
-    #     folder = raw_input()
-    # except Exception as e:
-    #     folder = input()
-
     try:
         print('-------------------------------------------------------------')
         print(r'         ____                      __                __')
