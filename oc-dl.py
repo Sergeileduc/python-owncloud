@@ -44,7 +44,7 @@ cfg_opts = ['host',
             ]
 
 
-cfg = Settings('owncloud.cfg')
+cfg = Settings('.owncloud.cfg')
 if cfg.load(cfg_forum, cfg_opts):
     oc = owncloud.Client(cfg.host)
     try:
