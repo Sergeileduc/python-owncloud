@@ -154,11 +154,6 @@ if cfg.load(cfg_forum, cfg_opts):
                     os.chdir(previous_dir)
                 except Exception as e:
                     print(e)
-                # try:
-                #     os.mkdir(full_path)
-                # except OSError:
-                #     pass
-                # oc.get_file(full_path)
 
     except HTTPError as e:
         print(e.code)
