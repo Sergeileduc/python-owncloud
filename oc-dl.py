@@ -43,7 +43,6 @@ cfg_opts = ['host',
             'password'
             ]
 
-
 cfg = Settings('.owncloud.cfg')
 if cfg.load(cfg_forum, cfg_opts):
     oc = owncloud.Client(cfg.host)
