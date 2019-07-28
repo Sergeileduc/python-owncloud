@@ -44,19 +44,12 @@ cfg_opts = ['host',
 
 cfg = Settings('.owncloud.cfg')
 if cfg.load(cfg_forum, cfg_opts):
-    # oc = owncloud.Client('http://dl.dctrad.fr')
     oc = owncloud.Client(cfg.host)
-    # oc.login('Staff', 'staff123')
     oc.login(cfg.username, cfg.password)
 
     print('--------------------------------------------------------------')
     print('     Loged in Owncloud ')
     print('--------------------------------------------------------------')
-
-    # try:
-    #     folder = raw_input()
-    # except Exception as e:
-    #     folder = input()
 
     try:
         folder_path = '/'
