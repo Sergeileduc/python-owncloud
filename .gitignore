@@ -12,3 +12,4 @@ owncloud.cfg
 *.bat
 .DS_Store
 owncloud.cfg
+.owncloud.cfg
