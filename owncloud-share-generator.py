@@ -7,6 +7,7 @@ from urllib.error import HTTPError
 import requests.exceptions
 import importlib
 import sys
+from pathlib import Path
 
 importlib.reload(sys)
 
@@ -42,7 +43,23 @@ cfg_opts = ['host',
             'password'
             ]
 
-cfg = Settings('.owncloud.cfg')
+owncloud_cfg = '.owncloud.cfg'
+
+home = str(Path.home())
+owncloud_cfg_home = os.path.join(home, owncloud_cfg)
+
+if os.path.isfile(owncloud_cfg):
+    print(f"./{owncloud_cfg} found")
+    use_cfg = owncloud_cfg
+elif os.path.isfile(owncloud_cfg_home):
+    print(f"{owncloud_cfg_home} found")
+    use_cfg = owncloud_cfg_home
+else:
+    print("not found, either in local folder, or in home folder")
+    print(f"Rename {owncloud_cfg}.exemple in {owncloud_cfg}")
+    print("and put it in your HOME or your working folder")
+
+cfg = Settings(use_cfg)
 if cfg.load(cfg_forum, cfg_opts):
     # oc = owncloud.Client('http://dl.dctrad.fr')
     oc = owncloud.Client(cfg.host)
