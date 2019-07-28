@@ -95,7 +95,6 @@ if cfg.load(cfg_forum, cfg_opts):
             for file in list_dir:
                 if file.is_dir():
                     name = file.get_name()
-                    # full_path = file.get_path() + '/' + newName
                     full_path = file.get_path()
                     folder_list.append({'path': full_path, 'name': name})
                     print(f'{i:.<5d}{full_path:<s}')
@@ -109,7 +108,6 @@ if cfg.load(cfg_forum, cfg_opts):
                     shared = 'no'
                     if oc.is_shared(full_path):
                         shared = 'yes'
-                    # print(newName + '\t' + 'Partage : ' + shared)
                     print(f'{newName:.<60s} Partagé : {shared}')
             print("==========================================================")
             choice = input("tapez un nombre pour naviguer dans "
