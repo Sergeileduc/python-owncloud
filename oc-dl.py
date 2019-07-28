@@ -55,7 +55,6 @@ if cfg.load(cfg_forum, cfg_opts):
         print("Erreur.")
         print(" Veuillez configurer owncloud.cfg "
               "avec utilisateur et mot de passe valide")
-        # print(e)
         sys.exit(1)
 
     print('--------------------------------------------------------------')
@@ -138,8 +137,6 @@ if cfg.load(cfg_forum, cfg_opts):
                     if rel_path != path and not os.path.exists(rel_path):
                         os.makedirs(rel_path)
                 except OSError:
-                    # print(e)
-                    # print("mkdir error")
                     pass
                 try:
                     if rel_path != path:
