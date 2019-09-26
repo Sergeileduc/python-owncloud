@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+"""Navigate and download all files in a owncloud folder."""
 
 import configparser
 import owncloud  # pip install pyocclient
@@ -13,14 +14,16 @@ from pathlib import Path
 importlib.reload(sys)
 
 
-# Class for parsing config .cfg file
 class Settings(object):
+    """Class for parsing config .cfg file."""
 
     def __init__(self, configfile):
+        """Init object with configfile path."""
         self.config = configparser.ConfigParser(interpolation=None)
         self.config.read(configfile)
 
     def load(self, section, opts):
+        """Load all config items in object attributes."""
         try:
             for key in opts:
                 try:
@@ -49,6 +52,7 @@ owncloud_cfg = '.owncloud.cfg'
 home = str(Path.home())
 owncloud_cfg_home = os.path.join(home, owncloud_cfg)
 
+# Check if config file exists.
 if os.path.isfile(owncloud_cfg):
     print(f"./{owncloud_cfg} found")
     use_cfg = owncloud_cfg
@@ -61,8 +65,9 @@ else:
     print("and put it in your HOME or your working folder")
 
 cfg = Settings(use_cfg)
-if cfg.load(cfg_forum, cfg_opts):
+if cfg.load(cfg_forum, cfg_opts):  # load config file
     oc = owncloud.Client(cfg.host)
+    # Log in Owncloud
     try:
         oc.login(cfg.username, cfg.password)
     except requests.exceptions.MissingSchema:
@@ -82,7 +87,7 @@ if cfg.load(cfg_forum, cfg_opts):
         folder_path = '/'
         previous_folder_path = []
         folder_name = ''
-        while True:
+        while True:  # Infinite loop for user inputs
             list_dir = oc.list(folder_path, depth=1)
             print("==========================================================")
             print("Contenu de : " + folder_path)
