@@ -63,8 +63,7 @@ else:
 
 cfg = Settings(use_cfg)
 if cfg.load(cfg_forum, cfg_opts):
-    # oc = owncloud.Client('http://dl.dctrad.fr')
-    oc = owncloud.Client(cfg.host)
+    oc = owncloud.Client(cfg.host)  # pylint: disable=no-member
 
     print('--------------------------------------------------------------')
     print('     Loged in Owncloud ')
@@ -118,7 +117,7 @@ if cfg.load(cfg_forum, cfg_opts):
     print(f"Dossier local : {local_dir}")
 
     try:
-        oc.login(cfg.username, cfg.password)
+        oc.login(cfg.username, cfg.password)  # pylint: disable=no-member
     except requests.exceptions.MissingSchema:
         print("Erreur.")
         print(f"Veuillez configurer {owncloud_cfg} avec une url correcte")

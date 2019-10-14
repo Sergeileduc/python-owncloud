@@ -62,8 +62,8 @@ else:
 
 cfg = Settings(use_cfg)
 if cfg.load(cfg_forum, cfg_opts):
-    oc = owncloud.Client(cfg.host)
-    oc.login(cfg.username, cfg.password)
+    oc = owncloud.Client(cfg.host)  # pylint: disable=no-member
+    oc.login(cfg.username, cfg.password)  # pylint: disable=no-member
 
     print('--------------------------------------------------------------')
     print('     Loged in Owncloud ')
