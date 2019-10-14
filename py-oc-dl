@@ -66,10 +66,10 @@ else:
 
 cfg = Settings(use_cfg)
 if cfg.load(cfg_forum, cfg_opts):  # load config file
-    oc = owncloud.Client(cfg.host)
+    oc = owncloud.Client(cfg.host)  # pylint: disable=no-member
     # Log in Owncloud
     try:
-        oc.login(cfg.username, cfg.password)
+        oc.login(cfg.username, cfg.password)  # pylint: disable=no-member
     except requests.exceptions.MissingSchema:
         print("Erreur.")
         print(f"Veuillez configurer {owncloud_cfg} avec une url correcte")
