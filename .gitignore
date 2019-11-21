@@ -12,4 +12,4 @@ owncloud.cfg
 *.jpeg
 *.bat
 .DS_Store
-
+py-oc-dl-gui.py
