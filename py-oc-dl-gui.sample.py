@@ -12,6 +12,12 @@ from pathlib import Path
 from owncloud import HTTPResponseError
 from six.moves.urllib import parse
 
+nord0 = "#2E3440"
+nord1 = "#3B4252"
+nord2 = "#434C5E"
+nord4 = "#D8DEE9"
+fg = "white"
+
 user = "User"
 password = "password"
 server = "http://server.io"
@@ -30,6 +36,7 @@ class OcExplorer(tk.Tk):
         # self.racine = master
 
         self.withdraw()
+        self.config(background=nord0)
 
         self.folder_path = "/"
         self.previous_folder_path = []
@@ -54,9 +61,11 @@ class OcExplorer(tk.Tk):
         self.deiconify()
 
     def place_widgets(self):
-        self.frame = tk.Frame(self)
+        self.frame = tk.Frame(self, background=nord0)
         self.lb = tk.Listbox(self.frame, width=60, height=8,
-                             font=("Helvetica", 12))
+                             font=("Roboto", 12),
+                             background=nord1,
+                             foreground=fg)
         self.frame.pack(fill="both", expand=1, padx=10, pady=10)
 
         self.scrollbar = tk.Scrollbar(self.frame, orient="vertical")
@@ -68,9 +77,11 @@ class OcExplorer(tk.Tk):
         self.lb.pack(side="left", fill="both", expand=1)
 
         # Frame for files :
-        self.frame2 = tk.Frame(self)
+        self.frame2 = tk.Frame(self, background=nord0)
         self.lb2 = tk.Listbox(self.frame2, width=60, height=8,
-                              font=("Helvetica", 12))
+                              font=("Roboto", 12),
+                              background=nord2,
+                              foreground=fg)
         self.frame2.pack(fill="both", expand=1, padx=10)
 
         self.scrollbar2 = tk.Scrollbar(self.frame2, orient="vertical")
@@ -82,20 +93,22 @@ class OcExplorer(tk.Tk):
         self.lb2.pack(side="left", fill="both", expand=1)
 
         # Buttons
-        self.bottom_bar = tk.Frame(self)
-        self.bottom_bar.pack(side='bottom')
+        self.bottom_bar = tk.Frame(self, background=nord0)
+        self.bottom_bar.pack(side='bottom', ipady=10)
         self.b1 = tk.Button(self.bottom_bar, text="Précédent",
                             command=self._up,
-                            bd=0, font=("Helvetica", 12, "bold"),
-                            width=14, height=2)  # noqa:E501
-        self.b2 = tk.Button(self.bottom_bar, text="Ajouter le chemin",
-                            command=self._select,
-                            bd=0, font=("Helvetica", 12, "bold"),
-                            width=14, height=2)
+                            bd=0, font=("Roboto", 12, "bold"),
+                            width=14, height=2,
+                            background=nord4)  # noqa:E501
+        # self.b2 = tk.Button(self.bottom_bar, text="Ajouter le chemin",
+        #                     command=self._select,
+        #                     bd=0, font=("Roboto", 12, "bold"),
+        #                     width=14, height=2)
         self.b3 = tk.Button(self.bottom_bar, text="Télécharger",
                             command=self._download_all,
-                            bd=0, font=("Helvetica", 12, "bold"),
-                            width=14, height=2)
+                            bd=0, font=("Roboto", 12, "bold"),
+                            width=14, height=2,
+                            background=nord4)
 
         self.b1.pack(side="left", padx=30)
         # self.b2.pack(side="left", padx=30)
