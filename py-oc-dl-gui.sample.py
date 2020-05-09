@@ -12,6 +12,51 @@ from pathlib import Path
 from owncloud import HTTPResponseError
 from six.moves.urllib import parse
 
+bg0 = "#121212"
+bg1 = "#212121"
+bg2 = "#303030"
+bg3 = "#424242"
+bg4 = "#616161"
+
+nord0 = "#2E3440"
+nord1 = "#3B4252"
+nord2 = "#434C5E"
+nord3 = "#4C566A"
+
+# Snow Storm
+nord4 = "#D8DEE9"
+nord5 = "#E5E9F0"
+nord6 = "#ECEFF4"
+
+# Frost
+nord7 = "#8FBCBB"
+nord8 = "#88C0D0"
+nord9 = "#81A1C1"
+nord10 = "#5E81AC"
+
+gray300 = "#E0E0E0"
+gray600 = "#757575"
+gray700 = "#616161"
+
+tealA100 = "#A7FFEB"
+teal300 = "#4DB6AC"
+
+fg = "white"
+
+bg_darkest = nord0
+bg_darker = nord2
+bg_dark = nord3
+bg_dark_a1 = nord4
+bg_dark_a2 = nord6
+
+light = nord4
+
+button_bg = nord4
+
+progress_bg = nord1
+progress_fg = nord4
+
+
 user = "User"
 password = "password"
 server = "http://server.io"
@@ -30,6 +75,7 @@ class OcExplorer(tk.Tk):
         # self.racine = master
 
         self.withdraw()
+        self.config(background=bg_darkest)
 
         self.folder_path = "/"
         self.previous_folder_path = []
@@ -46,6 +92,14 @@ class OcExplorer(tk.Tk):
 
         self.title("Dossiers Ownloud")
 
+        self.s = ttk.Style()
+        # self.s.theme_use('clam')
+        self.s.configure("cool.Horizontal.TProgressbar",
+                         relief="flat",
+                         foreground=progress_fg, background=progress_fg,
+                         troughcolor=progress_bg,
+                         bordercolor=progress_bg)
+
         self.place_widgets()
 
         self._populate_list()
@@ -54,12 +108,33 @@ class OcExplorer(tk.Tk):
         self.deiconify()
 
     def place_widgets(self):
-        self.frame = tk.Frame(self)
-        self.lb = tk.Listbox(self.frame, width=60, height=8,
-                             font=("Helvetica", 12))
-        self.frame.pack(fill="both", expand=1, padx=10, pady=10)
 
-        self.scrollbar = tk.Scrollbar(self.frame, orient="vertical")
+        self.current_folder = tk.StringVar(value="/")
+
+        self.frame = tk.Frame(self, background=bg_darkest, relief="flat")
+        self.label_folder = tk.Label(self.frame,
+                                     background=bg_dark,
+                                     foreground=fg,
+                                     font=("Roboto Mono", 16),
+                                     anchor='w',
+                                     textvariable=self.current_folder)
+
+        self.lb = tk.Listbox(self.frame, width=60, height=8,
+                             font=("Roboto Mono", 12),
+                             background=bg_dark,
+                             foreground=fg,
+                             selectbackground=light,
+                             relief="flat",
+                             bd=0,
+                             highlightthickness=0)
+
+        self.frame.pack(fill="both", expand=1, padx=15, pady=15)
+        self.label_folder.pack(anchor="nw", fill="x", pady=(0, 10))
+
+        self.scrollbar = tk.Scrollbar(self.frame, orient="vertical", bd=0,
+                                      bg=bg_dark_a1,
+                                      activebackground=bg_dark_a2,
+                                      troughcolor=bg_darker)
         self.scrollbar.config(command=self.lb.yview)
         self.scrollbar.pack(side="right", fill="y")
 
@@ -68,12 +143,22 @@ class OcExplorer(tk.Tk):
         self.lb.pack(side="left", fill="both", expand=1)
 
         # Frame for files :
-        self.frame2 = tk.Frame(self)
+        self.frame2 = tk.Frame(self, background=bg_darkest, relief="flat")
         self.lb2 = tk.Listbox(self.frame2, width=60, height=8,
-                              font=("Helvetica", 12))
-        self.frame2.pack(fill="both", expand=1, padx=10)
+                              font=("Roboto Mono", 12),
+                              background=bg_dark,
+                              foreground=fg,
+                              selectbackground=light,
+                              relief="flat",
+                              bd=0,
+                              highlightthickness=0)
+        self.frame2.pack(fill="both", expand=1, padx=15)
 
-        self.scrollbar2 = tk.Scrollbar(self.frame2, orient="vertical")
+        self.scrollbar2 = tk.Scrollbar(self.frame2, orient="vertical", bd=0,
+                                       bg=bg_dark_a1,
+                                       activebackground=bg_dark_a2,
+                                       troughcolor=bg_darker)
+
         self.scrollbar2.config(command=self.lb2.yview)
         self.scrollbar2.pack(side="right", fill="y")
 
@@ -82,36 +167,41 @@ class OcExplorer(tk.Tk):
         self.lb2.pack(side="left", fill="both", expand=1)
 
         # Buttons
-        self.bottom_bar = tk.Frame(self)
-        self.bottom_bar.pack(side='bottom')
-        self.b1 = tk.Button(self.bottom_bar, text="Précédent",
+        self.bottom_bar = tk.Frame(self, background=bg_darker)
+        self.bottom_bar.pack(side='bottom', pady=(10, 0), fill="x")
+
+        self.bottom_center = tk.Frame(self.bottom_bar, background=bg_darker)
+        self.bottom_center.pack(side='bottom', ipady=10)
+
+        self.b1 = tk.Button(self.bottom_center, text="Précédent",
                             command=self._up,
-                            bd=0, font=("Helvetica", 12, "bold"),
-                            width=14, height=2)  # noqa:E501
-        self.b2 = tk.Button(self.bottom_bar, text="Ajouter le chemin",
-                            command=self._select,
-                            bd=0, font=("Helvetica", 12, "bold"),
-                            width=14, height=2)
-        self.b3 = tk.Button(self.bottom_bar, text="Télécharger",
+                            bd=0, font=("Roboto", 12, "bold"),
+                            width=14, height=2,
+                            background=button_bg)
+
+        self.b2 = tk.Button(self.bottom_center, text="Télécharger",
                             command=self._download_all,
-                            bd=0, font=("Helvetica", 12, "bold"),
-                            width=14, height=2)
+                            bd=0, font=("Roboto", 12, "bold"),
+                            width=14, height=2,
+                            background=button_bg)
 
         self.b1.pack(side="left", padx=30)
-        # self.b2.pack(side="left", padx=30)
-        self.b3.pack(side="left", padx=30)
+
+        self.b2.pack(side="left", padx=30)
 
         self.lb.bind('<Double-Button-1>', self.double_click)
 
         self.progress = ttk.Progressbar(self, orient="horizontal",
-                                        mode="determinate")
-        self.progress.pack(fill='x', padx=10, pady=(10, 0))
+                                        mode="determinate",
+                                        style="cool.Horizontal.TProgressbar")
+        self.progress.pack(fill='x', padx=15, pady=(10, 0))
 
         self.total_var = tk.IntVar(value=0)
         self.progress2 = ttk.Progressbar(self, orient="horizontal",
                                          mode="determinate",
+                                         style="cool.Horizontal.TProgressbar",
                                          variable=self.total_var)
-        self.progress2.pack(fill='x', padx=10, pady=(10, 0))
+        self.progress2.pack(fill='x', padx=15, pady=(10, 0))
 
     def double_click(self, event):
         widget = event.widget
@@ -121,6 +211,7 @@ class OcExplorer(tk.Tk):
         # print("selection:", selection, ": '%s'" % value)
         self.previous_folder_path.append(self.folder_path)
         self.folder_path = self.folder_list[index]["path"]
+        self.current_folder.set(value=self.folder_path)
 
         print(self.folder_path)
         self.folder_list = []
@@ -145,6 +236,7 @@ class OcExplorer(tk.Tk):
 
         try:
             self.folder_path = self.previous_folder_path.pop()
+            self.current_folder.set(value=self.folder_path)
         except IndexError:
             pass
         self._populate_list()
@@ -164,17 +256,20 @@ class OcExplorer(tk.Tk):
     def _download_all(self):
         self.directory = filedialog.askdirectory(initialdir=Path.home(),
                                                  title='Please select a directory')  # noqa:E501
-        self.progress["value"] = 0
-        self.progress2["maximum"] = total_size(self.file_list)
-        print(f"Total size is : {total_size(self.file_list)}")
-        for i in self.file_list:
-            print(i["name"], i["path"], i["size"])
-            # self.oc.get_file(i["path"])
+        if self.directory:
             self.progress["value"] = 0
-            self.progress["maximum"] = i["size"]
-            local_file = os.path.join(self.directory,
-                                      os.path.basename(i["path"]))
-            self._get_file(i["path"], local_file)
+            self.progress2["maximum"] = total_size(self.file_list)
+            print(f"Total size is : {total_size(self.file_list)}")
+            self.b2.config(state="disabled")
+            for i in self.file_list:
+                print(i["name"], i["path"], i["size"])
+                # self.oc.get_file(i["path"])
+                self.progress["value"] = 0
+                self.progress["maximum"] = i["size"]
+                local_file = os.path.join(self.directory,
+                                        os.path.basename(i["path"]))
+                self._get_file(i["path"], local_file)
+            self.b2.config(state="normal")
 
     # This code comes from pyocclient
     # https://github.com/owncloud/pyocclient
