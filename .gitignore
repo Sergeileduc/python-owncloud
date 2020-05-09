@@ -3,6 +3,7 @@ owncloud.cfg
 /build/
 /dist/
 /__pycache__/
+.venv/
 *.spec
 *.ico
 /*.svg
@@ -12,4 +13,4 @@ owncloud.cfg
 *.jpeg
 *.bat
 .DS_Store
-py-oc-dl-gui.py
+

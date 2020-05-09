@@ -2,7 +2,9 @@
 # -*- coding: UTF-8 -*-
 
 import os
+import configparser
 import tkinter as tk
+import sys
 from tkinter import ttk
 from tkinter import filedialog
 # from tkinter import END, SEL, INSERT
@@ -57,11 +59,28 @@ progress_bg = nord1
 progress_fg = nord4
 
 
-user = "User"
-password = "password"
-server = "http://server.io"
+# Class for parsing config .cfg file
+class Settings(object):
 
-API_PATH = "ocs/v1.php/apps/files_sharing/api/v1"
+    def __init__(self, configfile):
+        self.config = configparser.ConfigParser(interpolation=None)
+        self.config.read(configfile)
+
+    def load(self, section, opts):
+        try:
+            for key in opts:
+                try:
+                    setattr(self, key, self.config.get(section, key))
+                except configparser.NoOptionError:
+                    setattr(self, key, self.config.get('default', key))
+
+        except configparser.NoSectionError:
+            print(f'The section "{section}" does not exist')
+        except configparser.NoOptionError:
+            print(f'The value for "{key}" is missing')
+        else:
+            return True
+        return False
 
 
 def total_size(list_):
@@ -267,7 +286,7 @@ class OcExplorer(tk.Tk):
                 self.progress["value"] = 0
                 self.progress["maximum"] = i["size"]
                 local_file = os.path.join(self.directory,
-                                        os.path.basename(i["path"]))
+                                          os.path.basename(i["path"]))
                 self._get_file(i["path"], local_file)
             self.b2.config(state="normal")
 
@@ -337,6 +356,44 @@ class OcExplorer(tk.Tk):
         y = (self.winfo_screenheight() // 2) - (height // 2) + pad
         self.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
+
+# Config stuff
+cfg_forum = 'myowncloud'
+
+cfg_opts = ['host',
+            'username',
+            'password'
+            ]
+
+
+owncloud_cfg = '.owncloud.cfg'
+
+home = str(Path.home())
+owncloud_cfg_home = os.path.join(home, owncloud_cfg)
+
+if os.path.isfile(owncloud_cfg):
+    print(f"./{owncloud_cfg} found")
+    use_cfg = owncloud_cfg
+elif os.path.isfile(owncloud_cfg_home):
+    print(f"{owncloud_cfg_home} found")
+    use_cfg = owncloud_cfg_home
+else:
+    print("not found, either in local folder, or in home folder")
+    print(f"Rename {owncloud_cfg}.exemple in {owncloud_cfg}")
+    print("and put it in your HOME or your working folder")
+    sys.exit(0)
+
+cfg = Settings(use_cfg)
+if cfg.load(cfg_forum, cfg_opts):
+    user = cfg.username  # pylint: disable=no-member
+    password = cfg.password  # pylint: disable=no-member
+    server = cfg.host  # pylint: disable=no-member
+else:
+    print("Incorrect config.")
+    sys.exit(0)
+
+
+API_PATH = "ocs/v1.php/apps/files_sharing/api/v1"
 
 # MAIN PROGRAM here :
 app = OcExplorer()
